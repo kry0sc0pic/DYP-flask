@@ -1,11 +1,11 @@
 
 #for URLs, Parsing methods and other constants
-import utils.SITE as SITE
+
 import utils.site_parsing as PARSE
 
 #for making the actual requests
 import requests
-
+import os
 
 
 def attempt_login(username:str, password:str, session = None):
@@ -27,7 +27,7 @@ def attempt_login(username:str, password:str, session = None):
             'password':password
         }
         response = session.post(
-            url=SITE.AUTH_URL,
+            url=os.environ.get('AUTH_URL'),
             data=USER_DATA,
             #stream=True  #set it to stream || to test ; non stream version seems to respond faster, need to investigate
         )
@@ -77,7 +77,7 @@ def get_subjects(cookies) -> list[dict]:
 
         #Insert the session cookies
         session.cookies = requests.utils.cookiejar_from_dict(cookie_dict=cookies)
-        response = session.get(SITE.SUBJECTS_URL)
+        response = session.get(os.environ.get('SUBJECTS_URL'))
 
         html_content = response.content
         #pass the html_content to a custom parsing block, that converts it into a neat json object 
@@ -178,7 +178,7 @@ def get_attendance_summary(cookies) -> list[dict]:
 
         #Insert the session cookies
         session.cookies = requests.utils.cookiejar_from_dict(cookie_dict=cookies)
-        response = session.get(SITE.ATTENDANCE_URL)
+        response = session.get(os.environ.get('ATTENDANCE_URL'))
         response = response.content
         
         attendance_data = PARSE.parse_attendance(response) 
