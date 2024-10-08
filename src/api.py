@@ -11,10 +11,9 @@ from flask_limiter.util import get_remote_address
 # Core functionality of the app, authentication and fetching commonly used data
 # exists within this module
 from utils import core_utils
-
+import os
 #metadata
 from uptime_kuma_api import UptimeKumaApi, MonitorType
-from utils.SITE import KUMA_USER, KUMA_PASS, KUMA_URL
 
 app = Flask(__name__)
 app.secret_key = 'this_college_fucking_sucks'
@@ -34,11 +33,11 @@ logging.basicConfig(
 # will lead to N number of instances being created when using gunicorn with N number
 # of workers, but eh
 kuma_api = UptimeKumaApi(
-    url=KUMA_URL
+    url=os.environ.get('KUMA_URL')
 )
 
 try:
-    kuma_api.login(username=KUMA_USER, password=KUMA_PASS)
+    kuma_api.login(username=os.environ.get('KUMA_USER'), password=os.environ.get('KUMA_PASS'))
     logging.debug("Logged into uptime-kuma")
 except Exception as e:
     print(f"Login failed: {e}")
