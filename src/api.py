@@ -33,11 +33,11 @@ logging.basicConfig(
 # will lead to N number of instances being created when using gunicorn with N number
 # of workers, but eh
 kuma_api = UptimeKumaApi(
-    url=os.environ.get('KUMA_URL')
+    url=os.environ.get('KUMA_URL','')
 )
 
 try:
-    kuma_api.login(username=os.environ.get('KUMA_USER'), password=os.environ.get('KUMA_PASS'))
+    kuma_api.login(username=os.environ.get('KUMA_USER',''), password=os.environ.get('KUMA_PASS',''))
     logging.debug("Logged into uptime-kuma")
 except Exception as e:
     print(f"Login failed: {e}")
