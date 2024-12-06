@@ -16,7 +16,7 @@ import os
 from uptime_kuma_api import UptimeKumaApi, MonitorType
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, expose_headers=['Set-Cookie'])
 app.secret_key = 'super secret key'
 
 limiter = Limiter(
