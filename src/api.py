@@ -3,7 +3,7 @@ import logging
 
 # main entry point for the app
 from flask import Flask, request, session, Response
-
+from flask_cors import CORS
 # For rate limiting the API
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -16,7 +16,8 @@ import os
 from uptime_kuma_api import UptimeKumaApi, MonitorType
 
 app = Flask(__name__)
-app.secret_key = 'this_college_fucking_sucks'
+CORS(app)
+app.secret_key = 'super secret key'
 
 limiter = Limiter(
     key_func=get_remote_address,
